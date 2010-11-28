@@ -26,7 +26,7 @@ public class DoomTools {
 	public static final String DOOM_SOUND_FOLDER = "/sdcard/doom" + File.separator + "sound";
 	
 	// Base server URL
-	public static final String URL_BASE =  "http://doom-for-android.googlecode.com/files/";
+	public static final String URL_BASE =  "http://prboom4android.googlecode.com/files/";
 	
 	// HowTo URL
 	public static final String URL_HOWTO = "http://code.google.com/p/doom-for-android/wiki/HowTo";
@@ -219,6 +219,22 @@ public class DoomTools {
         return false;
 	}
 	
+	static public boolean installPrBoom(Context ctx) {
+		// check of /sdcard/doom exists, if not create it
+		File f = new File(DoomTools.DOOM_FOLDER + File.separator);
+		if(!f.exists())
+			f.mkdir();
+        InputStream prboomIn;
+        try {
+                prboomIn = ctx.getAssets().open("prboom.zip");
+                unzip(prboomIn, new File(DOOM_FOLDER));
+                return true;
+        } catch (IOException e) {
+                e.printStackTrace();
+        }
+        return false;
+	}
+	
 	private static boolean doDownload(Context ctx) {
 		try {
 			downloadFile(DoomTools.DOWNLOAD_BASE + DoomTools.DOOM_LIB + ".gz"
@@ -384,7 +400,7 @@ public class DoomTools {
 	 */
 	public static void cleanUp (final Context ctx, final int wadIdx) {
 		AlertDialog d = DialogTool.createAlertDialog(ctx, "Clean Up?"
-				, "This will remove game files from the sdcard. Use this option if you are experiencing problems.");
+				, "This will remove game files from the sdcard. Use this option if you are experiencing major problems.");
 		
 		d.setButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {

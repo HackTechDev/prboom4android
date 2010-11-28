@@ -69,29 +69,6 @@ public class GameFileDownloader
 	 */
 	private void doDownload(Context ctx, int wadIdx, boolean force) {
 		try {
-			// JNI lib /data/data/game.doom/files
-			File lib = ctx.getFileStreamPath(DoomTools.DOOM_LIB);
-			File parent = lib.getParentFile();
-			
-			if ( !parent.exists()) {
-				// Gotta create parent /data/data/game.doom/files 
-				if (  !parent.mkdirs() ) {
-					// This should not happen!
-					throw new Exception("Unable to create game folder:" + parent);
-				}
-			}
-			File f = new File(DoomTools.DOOM_FOLDER + File.separator);
-			if(!f.exists())
-				f.mkdir();
-//			DoomTools.installLib(ctx);
-			downloadFile(DoomTools.DOWNLOAD_BASE + DoomTools.DOOM_LIB + ".gz"
-					, ctx.getFileStreamPath(DoomTools.DOOM_LIB)
-					, "gzip", null, force);
-			
-			// prboom.wad
-			downloadFile(DoomTools.DOWNLOAD_BASE + DoomTools.REQUIRED_DOOM_WAD + ".gz"
-					, new File(DoomTools.DOOM_FOLDER + DoomTools.REQUIRED_DOOM_WAD)
-					, "gzip", null, force);
 			// game wad
 			downloadFile(DoomTools.DOWNLOAD_BASE + DoomTools.DOOM_WADS[wadIdx] + ".gz"
 					, new File(DoomTools.DOOM_FOLDER + DoomTools.DOOM_WADS[wadIdx])

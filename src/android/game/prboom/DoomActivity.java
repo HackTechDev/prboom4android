@@ -27,8 +27,7 @@ import java.io.OutputStream;
 
 
 import doom.audio.AudioClip;
-import doom.audio.AudioManager2;
-import doom.audio.AudioMgr;
+import doom.audio.AudioManager;
 import doom.util.DialogTool;
 import doom.util.DoomTools;
 import doom.util.LibraryLoader;
@@ -98,7 +97,7 @@ public class DoomActivity extends Activity
 	private String extraArgs = "";
 	
 	// Audio Cache Manager
-	private AudioManager2 mAudioMgr;
+	private AudioManager mAudioMgr;
 	
 	// Sound? ( no by default)
 	private boolean mSound = false;
@@ -134,8 +133,6 @@ public class DoomActivity extends Activity
        loadSpinnerWads(this.getApplicationContext(), (Spinner)findViewById(R.id.s_files), 0);
         
        if (mGameStarted) {
-//        	setGameUI();
-//        	showGameScreen();
     	    if(mGamePaused)
     	    	resumeGame();
         	return;
@@ -153,8 +150,8 @@ public class DoomActivity extends Activity
         		+ "If you experience game problems, try the Cleanup option.");
         }
         if(DoomTools.hasSDCard()) {
-        	checkForConfig();
-//        	checkForUnhiddenSound();
+        	// check that prboom.cfg and prboom.wad exist
+        	checkForPrBoom();
         }
     }
     
@@ -331,6 +328,15 @@ public class DoomActivity extends Activity
 		}
     }
     
+    void checkForPrBoom() {
+		// check 4 prboom.cfg and prboom.wad
+		File prboom = new File(DoomTools.DOOM_FOLDER + "prboom.wad");
+		
+		if ( !prboom.exists() || mFirstRun ) {
+			DoomTools.installPrBoom(this);
+		}
+    }
+    
     
     void checkForUnhiddenSound() {
     	File soundDir = new File(DoomTools.DOOM_FOLDER + "sound/.nomedia");
@@ -359,7 +365,7 @@ public class DoomActivity extends Activity
         
         // Audio?
         if (mSound)
-        	mAudioMgr = AudioManager2.getInstance(this, wadIdx);
+        	mAudioMgr = AudioManager.getInstance(this, wadIdx);
 
        	enableDPad(mUseTouchControls);
         
@@ -550,30 +556,6 @@ public class DoomActivity extends Activity
     	return false;
     }
     
-/*    @Override
-    public boolean onTouchEvent(MotionEvent event) 
-    {
-    	
-    	try {
-        	if ( event.getAction() == MotionEvent.ACTION_DOWN) {
-            	// Fire on tap R-CTL
-            	Natives.keyEvent(Natives.EV_KEYDOWN, (0x80+0x1d)); 
-        	}
-        	else if ( event.getAction() == MotionEvent.ACTION_UP) {
-            	Natives.keyEvent(Natives.EV_KEYUP, (0x80+0x1d) );
-        	}
-        	else if ( event.getAction() == MotionEvent.ACTION_MOVE) {
-        		// Motion event
-        	}
-        	return true;
-		} 
-    	catch (UnsatisfiedLinkError e) {
-			// Should not happen!
-    		Log.e(TAG, e.toString());
-    		return false;
-		}
-    }
-*/    
     @Override
     public boolean onTrackballEvent(MotionEvent event) {
     	if(!mGameStarted || mGamePaused) {
@@ -602,22 +584,13 @@ public class DoomActivity extends Activity
      */
 	@Override
 	public void OnImageUpdate(int[] pixels) {
-//		if(/*!(mSound && mFullscreen) || */mFrameCount % FRAME_SKIP == 0) {
-			mBitmap.setPixels(pixels, 0, mWidth, 0, 0, mWidth, mHeight);
-		
-			mHandler.post(new Runnable() {
-				public void run() {
-					mView.setImageBitmap(mBitmap);
-/*					Canvas canvas = mSurfaceHolder.lockCanvas();
-					canvas.drawBitmap(mBitmap, 0, 0, null);
-					mSurfaceHolder.unlockCanvasAndPost(canvas);
-*/
-				}
-			});
-//		}
-//		mFrameCount++;
-//		if(mFrameCount < 0)
-//			mFrameCount = 0;
+		mBitmap.setPixels(pixels, 0, mWidth, 0, 0, mWidth, mHeight);
+	
+		mHandler.post(new Runnable() {
+			public void run() {
+				mView.setImageBitmap(mBitmap);
+			}
+		});
 	}
 
 	/**
@@ -714,7 +687,6 @@ public class DoomActivity extends Activity
 	public void OnQuit(int code) {
 		// TODO Not yet implemented in the JNI lib
     	Log.d(TAG, "Doom Hard Stop.");
-//    	DoomTools.hardExit(0);
     	mGameStarted = false;
     	mView.setBackgroundResource(R.drawable.doom);
 	}
@@ -750,7 +722,6 @@ public class DoomActivity extends Activity
 			findViewById(R.id.clean).setEnabled(false);
 			findViewById(R.id.s_files).setEnabled(false);
 		}
-//		findViewById(R.id.doom_iv).setVisibility(View.GONE);
 	}
 	
 	private void showGameScreen() {
@@ -1058,7 +1029,6 @@ public class DoomActivity extends Activity
     			mAudioMgr.setMusicVolume(0);
     			mAudioMgr.pauseAudioMgr(true);
     		}
-//    		DoomTools.hardExit(0);
     	}
     }
 
