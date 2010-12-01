@@ -88,23 +88,23 @@ public class DoomTools {
 		
 		// Left
 		case 84: // SYM
-//		case KeyEvent.KEYCODE_DPAD_LEFT:
+		case KeyEvent.KEYCODE_DPAD_LEFT:
 			return KEY_LEFTARROW;
 		
 		// Right
 		case KeyEvent.KEYCODE_AT:	
-//		case KeyEvent.KEYCODE_DPAD_RIGHT:
+		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			return KEY_RIGHTARROW;
 		
 		// Up
 		case KeyEvent.KEYCODE_SHIFT_LEFT:	
-//		case KeyEvent.KEYCODE_DPAD_UP:
+		case KeyEvent.KEYCODE_DPAD_UP:
 //		case KeyEvent.KEYCODE_W:
 			return KEY_UPARROW;
 		
 		// Down
 		case KeyEvent.KEYCODE_ALT_LEFT:
-//		case KeyEvent.KEYCODE_DPAD_DOWN:
+		case KeyEvent.KEYCODE_DPAD_DOWN:
 //		case KeyEvent.KEYCODE_S:
 			return KEY_DOWNARROW;
 			
