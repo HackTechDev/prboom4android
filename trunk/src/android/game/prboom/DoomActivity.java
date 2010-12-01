@@ -756,6 +756,7 @@ public class DoomActivity extends Activity
 			 ((Spinner)this.findViewById(R.id.s_files)).setSelection(wadIdx);
 		((CheckBox)this.findViewById(R.id.fullscreen)).setChecked(mFullscreen);
 		((CheckBox)this.findViewById(R.id.sound)).setChecked(mSound);
+		((CheckBox)this.findViewById(R.id.touch)).setChecked(mUseTouchControls);
 		((EditText)this.findViewById(R.id.arguments)).setText(extraArgs);
 
 		findViewById(R.id.s_files).setOnTouchListener(new View.OnTouchListener() {
