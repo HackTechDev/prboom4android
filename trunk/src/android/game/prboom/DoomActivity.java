@@ -53,6 +53,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -110,6 +111,8 @@ public class DoomActivity extends Activity
 	private static int mMusicVolume = 0;
 	
 	private Thread mGameThread = null;
+	
+	private boolean mMenuLongPressed = false;
 	
 	// members for dealing with the Virtual D-Pad
 	private boolean mUseTouchControls = false;
@@ -507,6 +510,18 @@ public class DoomActivity extends Activity
 //    		return true;
 //    	}
 
+    	if(keyCode == KeyEvent.KEYCODE_MENU) {
+    		if(mGameStarted && mMenuLongPressed == false)
+    			if(!mGamePaused) {
+    				pauseGame();
+    				showMainScreen();
+    			} else {
+    				resumeGame();
+    				showGameScreen();
+    			}
+    		mMenuLongPressed = false;
+    		return true;
+    	}
     	int sym = DoomTools.keyCodeToKeySym(keyCode);
 
     	try {
@@ -530,13 +545,12 @@ public class DoomActivity extends Activity
 //    	}
     	
     	if(keyCode == KeyEvent.KEYCODE_MENU) {
-    		if(mGameStarted)
-    			if(!mGamePaused) {
-    				pauseGame();
-    				showMainScreen();
-    			} else {
-    				resumeGame();
-    				showGameScreen();
+    		if(event.isLongPress())
+    			{
+    				mMenuLongPressed = true;
+    				InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    				// only will trigger it if no physical keyboard is open
+    				mgr.showSoftInput(this.mView, InputMethodManager.SHOW_FORCED);
     			}
     		return true;
     	}
