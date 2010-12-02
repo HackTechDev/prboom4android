@@ -773,6 +773,7 @@ public class DoomActivity extends Activity
 		((CheckBox)this.findViewById(R.id.touch)).setChecked(mUseTouchControls);
 		((EditText)this.findViewById(R.id.arguments)).setText(extraArgs);
 
+		
 		findViewById(R.id.s_files).setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -784,7 +785,6 @@ public class DoomActivity extends Activity
 						DialogTool.MessageBox(v.getContext(), "No WADs", "You will need to install some"
 								+ " WAD files in order to play.  Press \"Install WADs\" to get going.");
 					}
-					return true;
 				}
 				return false;
 			}
@@ -1066,10 +1066,14 @@ public class DoomActivity extends Activity
         	this.findViewById(R.id.vstick).setVisibility(View.VISIBLE);
         	this.findViewById(R.id.indicator).setVisibility(View.VISIBLE);
         	this.findViewById(R.id.open).setVisibility(View.VISIBLE);
+        	this.findViewById(R.id.decrementWeapon).setVisibility(View.VISIBLE);
+        	this.findViewById(R.id.incrementWeapon).setVisibility(View.VISIBLE);
 		} else {
         	this.findViewById(R.id.vstick).setVisibility(View.GONE);
         	this.findViewById(R.id.indicator).setVisibility(View.GONE);
         	this.findViewById(R.id.open).setVisibility(View.GONE);
+        	this.findViewById(R.id.decrementWeapon).setVisibility(View.GONE);
+        	this.findViewById(R.id.incrementWeapon).setVisibility(View.GONE);
 		}
 	}
 	
