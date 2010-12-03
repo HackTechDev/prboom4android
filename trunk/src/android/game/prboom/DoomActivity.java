@@ -545,7 +545,8 @@ public class DoomActivity extends Activity
 //    	}
     	
     	if(keyCode == KeyEvent.KEYCODE_MENU) {
-    		if(event.isLongPress())
+    		int flags = event.getFlags();
+    		if((flags & KeyEvent.FLAG_LONG_PRESS) != 0)
     			{
     				mMenuLongPressed = true;
     				InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
