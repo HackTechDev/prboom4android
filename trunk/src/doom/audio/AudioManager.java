@@ -13,12 +13,12 @@ import doom.util.DoomTools;
  * @author vsilva
  *
  */
-public class AudioManager2 
+public class AudioManager 
 {
 	static final String TAG = "AudioMgr";
 	public static final int MAX_CLIPS = 50;
 	
-	static private AudioManager2 am ;
+	static private AudioManager am ;
 
 	// Game sound (WAVs)
 	private volatile HashMap<String, AudioClip> mSounds = new HashMap<String, AudioClip>();
@@ -35,12 +35,12 @@ public class AudioManager2
 	 * @param wadIdx
 	 * @return
 	 */
-	static public AudioManager2 getInstance(Context ctx, int wadIdx) {
-		if ( am == null) return new AudioManager2(ctx, wadIdx);
+	static public AudioManager getInstance(Context ctx, int wadIdx) {
+		if ( am == null) return new AudioManager(ctx, wadIdx);
 		return am;
 	}
 
-	private AudioManager2(Context ctx, int wadIdx) {
+	private AudioManager(Context ctx, int wadIdx) {
 		mContext = ctx;
 //		mWadIdx = wadIdx;
 		preloadSounds(ctx, wadIdx);
