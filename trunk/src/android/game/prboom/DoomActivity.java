@@ -1064,17 +1064,9 @@ public class DoomActivity extends Activity
 	
 	private void enableDPad(boolean enable) {
 		if(enable) {
-        	this.findViewById(R.id.vstick).setVisibility(View.VISIBLE);
-        	this.findViewById(R.id.indicator).setVisibility(View.VISIBLE);
-        	this.findViewById(R.id.open).setVisibility(View.VISIBLE);
-        	this.findViewById(R.id.decrementWeapon).setVisibility(View.VISIBLE);
-        	this.findViewById(R.id.incrementWeapon).setVisibility(View.VISIBLE);
+        	this.findViewById(R.id.gameControls).setVisibility(View.VISIBLE);
 		} else {
-        	this.findViewById(R.id.vstick).setVisibility(View.GONE);
-        	this.findViewById(R.id.indicator).setVisibility(View.GONE);
-        	this.findViewById(R.id.open).setVisibility(View.GONE);
-        	this.findViewById(R.id.decrementWeapon).setVisibility(View.GONE);
-        	this.findViewById(R.id.incrementWeapon).setVisibility(View.GONE);
+        	this.findViewById(R.id.gameControls).setVisibility(View.INVISIBLE);
 		}
 	}
 	
