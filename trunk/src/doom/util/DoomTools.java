@@ -14,7 +14,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.game.prboom.DoomActivity;
+import android.game.prboom.PrBoomActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -29,7 +29,7 @@ public class DoomTools {
 	public static final String URL_BASE =  "http://prboom4android.googlecode.com/files/";
 	
 	// HowTo URL
-	public static final String URL_HOWTO = "http://code.google.com/p/doom-for-android/wiki/HowTo";
+	public static final String URL_HOWTO = "http://code.google.com/p/prboom4android/wiki/HowTo";
 	
 	// Url prefix that has all Doom files: WADs, Sound + JNI lib
 	public static final String DOWNLOAD_BASE = URL_BASE + "" ;

@@ -93,7 +93,7 @@
 				android:id="@+id/touch"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Virtual D-Pad"
+				android:text="On-Screen Controls"
 				android:layout_alignTop="@+id/fullscreen"
 				android:layout_toRightOf="@+id/sound"
 				android:textStyle="bold"

@@ -11,7 +11,7 @@ import java.io.InputStream;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.game.prboom.DoomActivity;
+import android.game.prboom.PrBoomActivity;
 import android.util.Log;
 
 /**
@@ -41,7 +41,7 @@ public class GameFileDownloader
 				doDownload(ctx, wadIdx, force);
 				
 				// Download complete! Ready to start
-				DoomActivity.mHandler.post(new Runnable() {
+				PrBoomActivity.mHandler.post(new Runnable() {
 					public void run() 
 					{
 						// close progress
@@ -136,7 +136,7 @@ public class GameFileDownloader
 				doDownloadSound(ctx);
 				
 				// Download complete! Ready to start
-				DoomActivity.mHandler.post(new Runnable() {
+				PrBoomActivity.mHandler.post(new Runnable() {
 					public void run() 
 					{
 						// close progress
