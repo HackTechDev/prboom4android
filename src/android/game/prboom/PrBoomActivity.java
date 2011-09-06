@@ -74,7 +74,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @author vsilva
  * 
  */
-public class DoomActivity extends Activity implements Natives.EventListener,
+public class PrBoomActivity extends Activity implements Natives.EventListener,
 		SurfaceHolder.Callback {
 	private static final String TAG = "DoomActivity";
 	private static final int FRAME_SKIP = 1;
@@ -228,7 +228,7 @@ public class DoomActivity extends Activity implements Natives.EventListener,
 			return true;
 		case 3:
 			// Help
-			DialogTool.launchBrowser(DoomActivity.this, DoomTools.URL_HOWTO);
+			DialogTool.launchBrowser(PrBoomActivity.this, DoomTools.URL_HOWTO);
 			return true;
 		case 4:
 			// Cleanup
@@ -237,7 +237,7 @@ public class DoomActivity extends Activity implements Natives.EventListener,
 				return true;
 			}
 
-			DoomTools.cleanUp(DoomActivity.this, wadIdx);
+			DoomTools.cleanUp(PrBoomActivity.this, wadIdx);
 			return true;
 
 		case 5:
@@ -679,7 +679,7 @@ public class DoomActivity extends Activity implements Natives.EventListener,
 	@Override
 	public void OnStartMusic(String name, int loop) {
 		if (mSound && mAudioMgr != null)
-			mAudioMgr.startMusic(DoomActivity.this, name, loop);
+			mAudioMgr.startMusic(PrBoomActivity.this, name, loop);
 	}
 
 	/**
@@ -896,7 +896,7 @@ public class DoomActivity extends Activity implements Natives.EventListener,
 					MessageBox("Can't cleanup while game in progress.");
 				}
 
-				DoomTools.cleanUp(DoomActivity.this, wadIdx);
+				DoomTools.cleanUp(PrBoomActivity.this, wadIdx);
 			}
 		});
 
@@ -905,7 +905,7 @@ public class DoomActivity extends Activity implements Natives.EventListener,
 			public void onClick(View v) {
 				// Help
 				DialogTool
-						.launchBrowser(DoomActivity.this, DoomTools.URL_HOWTO);
+						.launchBrowser(PrBoomActivity.this, DoomTools.URL_HOWTO);
 			}
 		});
 

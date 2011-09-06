@@ -8,7 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.game.prboom.DoomActivity;
+import android.game.prboom.PrBoomActivity;
 import android.game.prboom.R;
 import android.net.Uri;
 import android.os.Handler;
@@ -226,7 +226,7 @@ public class DialogTool
 	 * @param text
 	 */
 	public static void PostMessageBox (final Context ctx, final String text) {
-		DoomActivity.mHandler.post(new Runnable() {
+		PrBoomActivity.mHandler.post(new Runnable() {
 			public void run() {
 				MessageBox(ctx, ctx.getString(R.string.app_name), text);
 			}
