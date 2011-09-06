@@ -7,12 +7,17 @@
     	android:id="@+id/uiFL"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent">
-		<ImageView android:id="@+id/doom_iv" 
-	    	android:layout_width="fill_parent" 
-	    	android:layout_height="fill_parent" 
-	    	android:background="@drawable/doom"
-	    	android:visibility="visible"
-	    	android:focusableInTouchMode="true" android:focusable="true" android:adjustViewBounds="false"/>
+    	<RelativeLayout
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent">
+			<ImageView android:id="@+id/doom_iv" 
+    			android:layout_width="fill_parent" 
+    			android:layout_height="fill_parent" 
+    			android:background="@drawable/doom"
+    			android:visibility="visible"
+    			android:layout_centerInParent="true"
+    			android:focusableInTouchMode="true" android:focusable="true" android:adjustViewBounds="false"/>
+    	</RelativeLayout>
 	    <RelativeLayout 
 	    	android:id="@+id/main_ctls"
 	    	android:layout_width="fill_parent"
@@ -153,7 +158,8 @@
 		<RelativeLayout
 			android:id="@+id/gameControls"
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
+			android:layout_height="fill_parent"
+			android:visibility="invisible">
 			<ImageView 
 				android:id="@+id/indicator"
 	        	android:layout_width="wrap_content" 
@@ -163,27 +169,7 @@
 	        	android:layout_margin="0px"
 				android:layout_alignParentTop="true"
 				android:layout_alignParentLeft="true"
-	         	/>
-	    	<ImageButton
-	    		android:id="@+id/decrementWeapon"
-	    		android:layout_width="wrap_content"
-	    		android:layout_height="wrap_content"
-	    		android:src="@drawable/change_weapon"
-	        	android:background="#00000000"
-	    		android:layout_margin="2dp"
-	    		android:layout_alignParentTop="true"
-	    		android:layout_toRightOf="@id/indicator"
-	    		/>
-	    	<ImageButton
-	    		android:id="@+id/incrementWeapon"
-	    		android:layout_width="wrap_content"
-	    		android:layout_height="wrap_content"
-	    		android:src="@drawable/change_weapon_r"
-	        	android:background="#00000000"
-	    		android:layout_margin="2dp"
-	    		android:layout_alignParentTop="true"
-	    		android:layout_toRightOf="@id/decrementWeapon"
-	    		/>
+         	/>
 	    	<ImageButton 
 				android:id="@+id/vstick"
 	        	android:layout_width="wrap_content" 
@@ -204,16 +190,160 @@
 				android:layout_alignParentBottom="true"
 				android:layout_centerHorizontal="true"
 	         	/>
+	        <CheckBox 
+	        	android:id="@+id/enableRun"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_alignParentRight="true"
+	        	android:layout_alignParentBottom="true" 
+	        />
+	        <TextView 
+	        	android:id="@+id/runText"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_alignBottom="@+id/enableRun"
+	        	android:layout_toLeftOf="@+id/enableRun"
+	        	android:layout_marginBottom="10dp"
+	        	android:text="Run"
+	        	android:textSize="20dp"
+	        	android:textStyle="bold"
+	        	android:textColor="#FFFFFF"
+        	/>
 	    	<ImageButton 
 				android:id="@+id/vstick_lr"
 	        	android:layout_width="wrap_content" 
 	        	android:layout_height="wrap_content" 
 	        	android:src="@drawable/vstick_lr"
 	        	android:background="#00000000"
-	        	android:layout_marginBottom="40dp"
+	        	android:layout_marginBottom="80dp"
 				android:layout_alignParentBottom="true"
 				android:layout_alignParentRight="true"
 	         />
+	         <ImageButton
+	         	android:id="@+id/weapon5"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_5"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_centerHorizontal="true"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon4"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_4"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toLeftOf="@+id/weapon5"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon3"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_3"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toLeftOf="@+id/weapon4"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon2"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_2"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toLeftOf="@+id/weapon3"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon1"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_1"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toLeftOf="@+id/weapon2"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon6"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_6"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toRightOf="@+id/weapon5"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon7"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_7"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toRightOf="@+id/weapon6"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon8"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_8"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toRightOf="@+id/weapon7"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/weapon9"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/weapon_9"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toRightOf="@+id/weapon8"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/no"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/no"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_alignParentRight="true"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/yes"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/yes"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toLeftOf="@+id/no"
+	        	android:layout_margin="2dp"
+	         />
+	         <ImageButton
+	         	android:id="@+id/map"
+	        	android:layout_width="wrap_content" 
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/map"
+	        	android:background="#00000000"
+	        	android:layout_alignParentTop="true"
+	        	android:layout_toRightOf="@+id/indicator"
+	        	android:layout_margin="2dp"
+	         />
+			<ImageView 
+				android:id="@+id/multiTouchView"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+			/>
 		</RelativeLayout>
 	</FrameLayout>
 </RelativeLayout>
