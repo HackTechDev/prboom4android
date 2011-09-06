@@ -152,7 +152,7 @@ public class AudioManager
 			return;
 		// Sound folder
 		File folder = DoomTools.getSoundFolder(); //DoomTools.DOOM_WADS[mWadIdx]);
-		File sound = new File(folder +  File.separator + "d1" + key + ".ogg");
+		File sound = new File(folder +  File.separator + "d1" + key + ".mp3");
 		
 		if ( !sound.exists()) {
 			Log.e(TAG, "Unable to find music " + sound);
@@ -182,7 +182,7 @@ public class AudioManager
 	public void stopMusic (String key) {
 		// Sound folder
 		File folder = DoomTools.getSoundFolder(); //DoomTools.DOOM_WADS[mWadIdx]);
-		Uri sound = Uri.fromFile(new File(folder +  File.separator + "d1" + key + ".ogg"));
+		Uri sound = Uri.fromFile(new File(folder +  File.separator + "d1" + key + ".mp3"));
 		
 		if ( music != null  ) {
 			if ( !sound.equals(Uri.parse(music.getName()))) {

@@ -74,6 +74,21 @@ public class DoomTools {
 	public static final int KEY_COMMA		= 44;
 	public static final int KEY_PERIOD		= 46;
 	
+	public static final int KEY_0			= 48;
+	public static final int KEY_1			= 49;
+	public static final int KEY_2			= 50;
+	public static final int KEY_3			= 51;
+	public static final int KEY_4			= 52;
+	public static final int KEY_5			= 53;
+	public static final int KEY_6			= 54;
+	public static final int KEY_7			= 55;
+	public static final int KEY_8			= 56;
+	public static final int KEY_9			= 57;
+	
+	public static final int KEY_Y			= 121;
+	public static final int KEY_N			= 110;
+	public static final int KEY_Z			= 122;
+	
 	static boolean result;
 	static ProgressDialog mProgressDialog;
 
