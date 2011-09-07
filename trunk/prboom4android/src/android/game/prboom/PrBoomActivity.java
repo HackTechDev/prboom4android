@@ -22,11 +22,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import doom.audio.AudioClip;
 import doom.audio.AudioManager;
@@ -47,7 +44,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -81,8 +77,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	public static final String PREFS_NAME = "DoomForAndroid";
 	private static final int MOUSE_HSENSITIVITY = 100;
 	private static final int MOUSE_VSENSITIVITY = 40;
-	// how much of the center of the screen to use for touch control for firing
-	private static final float CENTER_TOUCH_ZONE = 0.50f;
 
 	static private Bitmap mDoomBitmap;
 	static private ImageView mView;
