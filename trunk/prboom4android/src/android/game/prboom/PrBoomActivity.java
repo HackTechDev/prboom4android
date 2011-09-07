@@ -81,7 +81,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	public static final String PREFS_NAME = "DoomForAndroid";
 	private static final int MOUSE_HSENSITIVITY = 100;
 	private static final int MOUSE_VSENSITIVITY = 40;
-	private static final int INVALID_POINTER_ID = -1;
+	// how much of the center of the screen to use for touch control for firing
+	private static final float CENTER_TOUCH_ZONE = 0.50f;
 
 	static private Bitmap mDoomBitmap;
 	static private ImageView mView;
@@ -96,8 +97,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	private SurfaceHolder mSurfaceHolder;
 	private boolean mSurfaceReady = false;
 	private Matrix mMatrix = new Matrix();
-
-	private int mActivePointerId = INVALID_POINTER_ID;
 
 	public static final Handler mHandler = new Handler();
 
@@ -191,61 +190,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	public void onStop() {
 		super.onStop();
 		DoomTools.hardExit(0);
-	}
-
-	/**
-	 * Menu selection
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		switch (item.getItemId()) {
-		case 0:
-			if (mGameStarted) {
-				MessageBox("Game already in progress.");
-				return true;
-			}
-			play();
-			return true;
-		case 1:
-			if (mGameStarted) {
-				MessageBox("Can't install while game in progress.");
-				return true;
-			}
-
-			// Download Game file
-			DialogTool.showDownloadDialog(this);
-			return true;
-
-		case 2:
-			if (mGameStarted) {
-				MessageBox("Set options before you start a game.");
-				return true;
-			}
-
-			// Options
-			DialogTool.showOptionsDialog(this, wadIdx, mSound, mFullscreen);
-			return true;
-		case 3:
-			// Help
-			DialogTool.launchBrowser(PrBoomActivity.this, DoomTools.URL_HOWTO);
-			return true;
-		case 4:
-			// Cleanup
-			if (mGameStarted) {
-				MessageBox("Can't cleanup while game in progress.");
-				return true;
-			}
-
-			DoomTools.cleanUp(PrBoomActivity.this, wadIdx);
-			return true;
-
-		case 5:
-			// Exit
-			DoomTools.hardExit(0);
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -860,7 +804,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mMultiTouchController.setOnTouchListener(touchControlsListener);
 
 		ImageButton vstick = (ImageButton) findViewById(R.id.vstick);
-		mVStick = new VirtualDPad(120, 120, 24);
+		mVStick = new VirtualDPad(180, 180, 24);
 
 		findViewById(R.id.install).setOnClickListener(
 				new View.OnClickListener() {
@@ -975,6 +919,12 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		String controlId;
 		View v;
 		Rect outRect = new Rect();
+		StringBuilder sb = new StringBuilder();
+		sb.append("processTouch: " + "(");
+		sb.append(x);
+		sb.append(",");
+		sb.append(y);
+		sb.append(") ");
 		
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
@@ -994,14 +944,19 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 					 (y >= outRect.top && y <= outRect.bottom) ) {
 					touchedViews[pointerIndex] = entry;
 					foundView = true;
+					sb.append(controlId); sb.append(" touched! [");
+					sb.append(pointerIndex); sb.append("]");
 					Log.d(TAG, controlId + " touched! [" + pointerIndex + "]");
 				} else if (controlId.contains("FIRE"))
 					other = entry;
 			}
 			if (!foundView) {
 				touchedViews[pointerIndex] = other;
-				Log.d(TAG, "FIRE touched! [" + pointerIndex + "]");
+				sb.append("FIRE touched! [");
+				sb.append(pointerIndex); sb.append("]");
 			}
+			
+			Log.d(TAG, sb.toString());
 			
 			v = touchedViews[pointerIndex].getValue();
 			controlId = touchedViews[pointerIndex].getKey();
@@ -1087,9 +1042,11 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		case MotionEvent.ACTION_UP:
 			pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK)
 				>> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-			if(touchedViews[pointerIndex] != null)
-				Log.d(TAG, touchedViews[pointerIndex].getKey() + " untouched! [" + pointerIndex + "]");
-			else
+			if(touchedViews[pointerIndex] != null) {
+				sb.append(touchedViews[pointerIndex].getKey() + " untouched! [");
+				sb.append(pointerIndex); sb.append("]");
+				Log.d(TAG, sb.toString());
+			} else
 				return true;
 
 			v = touchedViews[pointerIndex].getValue();
@@ -1155,7 +1112,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		case MotionEvent.ACTION_MOVE:
 			if(touchedViews[pointerIndex] == null)
 				return true;
-			Log.d(TAG, touchedViews[pointerIndex].getKey() + " moved! [" + pointerIndex + "]");
+			sb.append(touchedViews[pointerIndex].getKey() + " moved! [");
+			sb.append(pointerIndex); sb.append("]");
+			Log.d(TAG, sb.toString());
 			v = touchedViews[pointerIndex].getValue();
 			controlId = touchedViews[pointerIndex].getKey();
 			if (controlId.contains("DPAD")) {
@@ -1188,7 +1147,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 					if ((prev & VirtualDPad.POS_RIGHT) != 0)
 						Natives.keyEvent(Natives.EV_KEYUP, DoomTools
 								.keyCodeToKeySym(KeyEvent.KEYCODE_D));
-						// now check which direction(s) is current and was not
+					// now check which direction(s) is current and was not
 					// pressed the previous time
 					// and send the keydown event.
 					if ((curr & VirtualDPad.POS_UP) != 0)
