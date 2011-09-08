@@ -7,7 +7,13 @@
     	android:id="@+id/uiFL"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent">
-    	<RelativeLayout
+		<SurfaceView
+			android:id="@+id/gameCanvas"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+		/>
+	    <RelativeLayout 
+	    	android:id="@+id/main_ctls"
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="fill_parent">
 			<ImageView android:id="@+id/doom_iv" 
@@ -16,12 +22,10 @@
     			android:background="@drawable/doom"
     			android:visibility="visible"
     			android:layout_centerInParent="true"
-    			android:focusableInTouchMode="true" android:focusable="true" android:adjustViewBounds="false"/>
-    	</RelativeLayout>
-	    <RelativeLayout 
-	    	android:id="@+id/main_ctls"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent">
+    			android:focusableInTouchMode="true" 
+    			android:focusable="true" 
+    			android:adjustViewBounds="false"
+    		/>
 			<TextView
 				android:id="@+id/t_chooseWad"
 				android:layout_width="240dp"

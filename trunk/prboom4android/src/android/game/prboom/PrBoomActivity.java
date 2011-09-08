@@ -91,6 +91,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	private SurfaceHolder mSurfaceHolder;
 	private boolean mSurfaceReady = false;
 	private Matrix mMatrix = new Matrix();
+	private int mSurfaceWidth;
+	private int mSurfaceHeight;
 
 	public static final Handler mHandler = new Handler();
 
@@ -143,6 +145,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mView = (ImageView) findViewById(R.id.doom_iv);
 		loadSpinnerWads(this.getApplicationContext(),
 				(Spinner) findViewById(R.id.s_files), 0);
+		
+		mSurfaceView = (SurfaceView) findViewById(R.id.gameCanvas);
+		mSurfaceHolder = mSurfaceView.getHolder();
+		mSurfaceHolder.addCallback(this);
 
 		if (mGameStarted) {
 			if (mGamePaused)
@@ -554,7 +560,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 		mHandler.post(new Runnable() {
 			public void run() {
-				mView.setImageBitmap(mDoomBitmap);
+				drawScreen();
+				//mView.setImageBitmap(mDoomBitmap);
+				
 			}
 		});
 	}
@@ -574,6 +582,13 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mDoomWidth = w;
 		mDoomHeight = h;
 		mDoomBitmap = Bitmap.createBitmap(w, h, Config.RGB_565);
+		int x = (mSurfaceWidth - w) / 2;
+		int y = (mSurfaceHeight - h) / 2;
+		if(mFullscreen) {
+			float scale = (float)mSurfaceHeight / (float)h;
+			mMatrix.preScale(scale, scale, w/2, h/2);
+		}
+		mMatrix.postTranslate(x, y);
 	}
 
 	@Override
@@ -664,6 +679,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		Log.d(getClass().getSimpleName(), "surfaceChanged");
+		mSurfaceWidth = w;
+		mSurfaceHeight = h;
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
@@ -673,7 +690,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 	private void drawScreen() {
 		Canvas canvas = mSurfaceHolder.lockCanvas();
-		canvas.drawBitmap(mDoomBitmap, 0, 0, null);
+		canvas.drawBitmap(mDoomBitmap, mMatrix, null);
 		mSurfaceHolder.unlockCanvasAndPost(canvas);
 	}
 
@@ -1106,9 +1123,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		case MotionEvent.ACTION_MOVE:
 			if(touchedViews[pointerIndex] == null)
 				return true;
-			sb.append(touchedViews[pointerIndex].getKey() + " moved! [");
-			sb.append(pointerIndex); sb.append("]");
-			Log.d(TAG, sb.toString());
+			//sb.append(touchedViews[pointerIndex].getKey() + " moved! [");
+			//sb.append(pointerIndex); sb.append("]");
+			//Log.d(TAG, sb.toString());
 			v = touchedViews[pointerIndex].getValue();
 			controlId = touchedViews[pointerIndex].getKey();
 			if (controlId.contains("DPAD")) {
