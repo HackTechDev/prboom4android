@@ -152,7 +152,7 @@ public class AudioManager
 			return;
 		// Sound folder
 		File folder = DoomTools.getSoundFolder(); //DoomTools.DOOM_WADS[mWadIdx]);
-		File sound = new File(folder +  File.separator + "d1" + key + ".mp3");
+		File sound = new File(folder +  File.separator + key + ".mid");
 		
 		if ( !sound.exists()) {
 			Log.e(TAG, "Unable to find music " + sound);

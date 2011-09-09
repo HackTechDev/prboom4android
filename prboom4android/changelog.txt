@@ -7,9 +7,14 @@
  ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______  
 |______|______|______|______|______|______|______|______|______|______|______|______|
 
+ 1.2.3-beta
+------------
+ + Created custom images for buttons, checkboxes, textviews, etc.
+ + Added a DooM.ttf font to use on the main screen
+
  1.2.2-beta
 ------------
- + Game screen on rendered to a SurfaceView for better performance and frame rates.
+ + Game screen now rendered to a SurfaceView for better performance and frame rates.
  
  1.2.1-beta
 ------------
