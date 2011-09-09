@@ -10,21 +10,21 @@ PrBoom4Android is a port of the open source PrBoom Doom engine.  It was original
 When you first launch PrBoom4Android you'll be greeted with the main user interface.<br>
 This is the main android interface to the PrBoom engine.
 
-https://lh3.googleusercontent.com/-LtgLzfInOS4/TmaQCZOj54I/AAAAAAAAAbc/nvFKX9A8yoY/s400/prboom_main_screen.png
+https://lh6.googleusercontent.com/-vhMb2d9gyXw/TmqWtjjVN9I/AAAAAAAAAb8/EgH-CY6Hw3c/s400/prboom_main_screen.png
 
 == Basic Requirements ==
   * First you need to get your hands on a WAD to play.
    * Because the original Doom and Doom II wads are copyrighted material, you will have to own those games and grab the .WAD files from your copy(s).  Once you have you .WAD file(s) copy them to your SD card in a folder named "Doom".  For you linux guys that's /sdcard/Doom.
    * If you do not own these games, don't worry because there is FreeDoom, a free doom .WAD, that you can download directly from PrBoom4Android.  Just click on the Install WADs button.
-   https://lh3.googleusercontent.com/-Bwcgi5advus/TmaDbCmgE0I/AAAAAAAAAbI/cCITCrdWejU/s400/prboom_download_wad.png
+   https://lh6.googleusercontent.com/-aXwo_HbSVs0/TmqaY8p0HtI/AAAAAAAAAcE/musy7rfsZsw/s400/prboom_download_wad.png
   * Second thing you need, although this is optional, are the sounds for the game.  Due to the implementation of this port, the sounds are not extracted from the .WAD files at runtime.  This is on the list of things to do, but in the meantime, this is the workaround.
    * To download and install the sounds, click on the "Install Sounds" button (tricky huh?).  You should something similar to the following image while the sounds download.
-   https://lh3.googleusercontent.com/--0n9_u_kn2I/TmaDam6qtII/AAAAAAAAAbA/ssn07lDqNF0/s400/prboom_downloading_sounds.png
+   https://lh6.googleusercontent.com/-bmDuPRo8rmo/TmqaY3aQk8I/AAAAAAAAAcM/rUDYTcvu0uQ/s400/prboom_downloading_sounds.png
 
 
 == Time to Play! ==
 Now that you've got the necessary game files loaded up, it's time to play!  If you have multiple .WAD files installed on your SD card, you will want to choose which WAD to play.  To select a .WAD to play, press the drop down selector below "Choose WAD to play"
-https://lh6.googleusercontent.com/-fhNdBTPewA4/TmaDbLtHcdI/AAAAAAAAAbM/kz58BuY0dhM/s400/prboom_wad_selection.png
+https://lh6.googleusercontent.com/-C06cGyiyHfM/TmqaZAUPp9I/AAAAAAAAAcI/5zp4N586A_o/s400/prboom_wad_selection.png
 
 Once you've selected the .WAD to play, feel free to enable or disable some of the Game Engine Options.  
  * Fullscreen  - this option uses the majority of your device's screen, but may also run a bit slower due to the higher resolution.  If the game seems to be a bit choppy, see how it runs when disabling this feature.
@@ -33,7 +33,7 @@ Once you've selected the .WAD to play, feel free to enable or disable some of th
 
 
 === The Controls ===
-https://lh5.googleusercontent.com/-Ru6PcJsL6P4/TmaDZ7LrVSI/AAAAAAAAAa4/bZwhgmha7Hg/s400/doomII_in_game2.png
+https://lh4.googleusercontent.com/-j2B8kRP7OxI/TmqP_RSsstI/AAAAAAAAAbs/Zta9-W8hJ30/s400/doomII_in_game4.png
 
 The controls are as follows from bottom left going counter-clockwise
  * D-Pad - Moves you forward, backward, and strafes left and right.
