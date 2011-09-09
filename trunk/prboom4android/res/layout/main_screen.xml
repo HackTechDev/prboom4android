@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/rootView"
     >
     <FrameLayout 
     	android:id="@+id/uiFL"
@@ -32,17 +33,17 @@
 				android:layout_height="wrap_content"
 				android:text="Choose WAD to play"
 				android:textStyle="bold"
-				android:textSize="20dp">
+				android:textSize="16dp">
 			</TextView>
 			<TextView
 				android:id="@+id/t_arguments"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentTop="true"
-				android:layout_alignLeft="@+id/arguments"
+				android:layout_alignParentRight="true"
 				android:text="Extra arguments"
 				android:textStyle="bold"
-				android:textSize="20dp" 
+				android:textSize="16dp" 
 				android:visibility="visible">
 			</TextView>
 			<Spinner
@@ -50,7 +51,9 @@
 				android:layout_width="240dp"
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/t_chooseWad"
-				android:layout_alignLeft="@+id/t_chooseWad">
+				android:layout_alignLeft="@+id/t_chooseWad"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_spinner">
 			</Spinner>
 			<EditText
 				android:id="@+id/arguments"
@@ -59,9 +62,11 @@
 				android:text=""
 				android:layout_toRightOf="@+id/s_files"
 				android:layout_alignTop="@+id/s_files"
-				android:textSize="18dp" 
+				android:textSize="16dp" 
+				android:textColor="#FFFFFF"
 				android:singleLine="true" 
-				android:visibility="visible">
+				android:visibility="visible"
+				android:background="@drawable/doom_button">
 			</EditText>
 			<TextView
 				android:id="@+id/t_options"
@@ -72,7 +77,7 @@
 				android:layout_marginTop="15dp"
 				android:text="Game Engine Options"
 				android:textStyle="bold"
-				android:textSize="20dp">
+				android:textSize="18dp">
 			</TextView>
 			<CheckBox
 				android:id="@+id/fullscreen"
@@ -81,7 +86,8 @@
 				android:text="Fullscreen"
 				android:layout_below="@+id/t_options"
 				android:textStyle="bold"
-				android:textSize="18dp">
+				android:textSize="14dp"
+				android:button="@drawable/doom_checkbox">
 			</CheckBox>
 			<CheckBox
 				android:id="@+id/sound"
@@ -91,7 +97,9 @@
 				android:layout_alignTop="@+id/fullscreen"
 				android:layout_toRightOf="@+id/fullscreen"
 				android:textStyle="bold"
-				android:textSize="18dp">
+				android:textSize="14dp"
+				android:layout_marginLeft="8dp"
+				android:button="@drawable/doom_checkbox">
 			</CheckBox>
 			<CheckBox
 				android:id="@+id/touch"
@@ -101,53 +109,72 @@
 				android:layout_alignTop="@+id/fullscreen"
 				android:layout_toRightOf="@+id/sound"
 				android:textStyle="bold"
-				android:textSize="18dp">
+				android:textSize="14dp"
+				android:layout_marginLeft="8dp"
+				android:button="@drawable/doom_checkbox">
 			</CheckBox>
 			<Button
 				android:id="@+id/install"
-				android:layout_width="wrap_content"
+				android:layout_width="150dp"
 				android:layout_height="wrap_content"
 				android:text="Install WADs"
 				android:layout_below="@+id/fullscreen"
-				android:layout_alignParentLeft="true"
+				android:layout_toLeftOf="@+id/installSound"
 				android:layout_marginTop="5dp"
-				android:textStyle="bold">
+				android:layout_marginRight="5dp"
+				android:textSize="13dp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_button">
 			</Button>
 			<Button
 				android:id="@+id/installSound"
-				android:layout_width="wrap_content"
+				android:layout_width="150dp"
 				android:layout_height="wrap_content"
-				android:text="Install Sounds "
+				android:text="Install Sounds"
 				android:layout_alignTop="@+id/install"
-				android:layout_toRightOf="@+id/install"
-				android:textStyle="bold">
+				android:layout_centerHorizontal="true"
+				android:textSize="13dp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_button">
 			</Button>
 			<Button
 				android:id="@+id/clean"
-				android:layout_width="wrap_content"
+				android:layout_width="150dp"
 				android:layout_height="wrap_content"
 				android:text="Cleanup"
 				android:layout_alignTop="@+id/install"
 				android:layout_toRightOf="@+id/installSound"
-				android:textStyle="bold">
+				android:layout_marginLeft="5dp"
+				android:textSize="13dp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_button">
 			</Button>
 			<Button
 				android:id="@+id/help"
-				android:layout_width="wrap_content"
+				android:layout_width="100dp"
 				android:layout_height="wrap_content"
-				android:text="Help Me!"
-				android:layout_alignTop="@+id/install"
-				android:layout_toRightOf="@+id/clean"
-				android:textStyle="bold">
+				android:text="How To"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentBottom="true"
+				android:textSize="13dp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_button">
 			</Button>
 			<Button
 				android:id="@+id/quit"
-				android:layout_width="wrap_content"
+				android:layout_width="100dp"
 				android:layout_height="wrap_content"
-				android:text="    Quit!    "
-				android:layout_alignTop="@+id/install"
-				android:layout_toRightOf="@+id/help"
-				android:textStyle="bold">
+				android:text="Quit"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentBottom="true"
+				android:textSize="13dp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_button">
 			</Button>
 			<Button
 				android:id="@+id/play"
@@ -156,7 +183,9 @@
 				android:text="PLAY!"
 				android:layout_alignParentBottom="true"
 				android:layout_centerHorizontal="true"
-				android:textStyle="bold">
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:background="@drawable/custom_button">
 			</Button>
 		</RelativeLayout>
 		<RelativeLayout
@@ -199,7 +228,8 @@
 	        	android:layout_width="wrap_content"
 	        	android:layout_height="wrap_content"
 	        	android:layout_alignParentBottom="true"
-	        	android:layout_toLeftOf="@+id/vstick_lr" 
+	        	android:layout_toLeftOf="@+id/vstick_lr"
+	        	android:button="@drawable/doom_checkbox" 
 	        />
 	        <TextView 
 	        	android:id="@+id/runText"

@@ -40,6 +40,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -55,12 +56,16 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -72,9 +77,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class PrBoomActivity extends Activity implements Natives.EventListener,
 		SurfaceHolder.Callback {
-	private static final String TAG = "DoomActivity";
-	private static final int FRAME_SKIP = 1;
-	public static final String PREFS_NAME = "DoomForAndroid";
+	private static final String TAG = "PrBoomActivity";
+	public static final String PREFS_NAME = "PrBoom4Android";
 	private static final int MOUSE_HSENSITIVITY = 100;
 	private static final int MOUSE_VSENSITIVITY = 40;
 
@@ -85,11 +89,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	// height of mBitmap
 	private int mDoomHeight;
 	private boolean mFirstRun = true;
-	private int mFrameCount = 0;
 
 	private SurfaceView mSurfaceView;
 	private SurfaceHolder mSurfaceHolder;
-	private boolean mSurfaceReady = false;
 	private Matrix mMatrix = new Matrix();
 	private int mSurfaceWidth;
 	private int mSurfaceHeight;
@@ -110,8 +112,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	private static boolean mGameStarted = false;
 
 	private static boolean mGamePaused = false;
-
-	private static int mMusicVolume = 0;
 
 	private Thread mGameThread = null;
 
@@ -139,6 +139,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.main_screen);
+		
+		changeFonts((ViewGroup)findViewById(R.id.rootView));
 
 		loadOnScreenControls();
 
@@ -212,9 +214,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			return;
 		}
 
-		// Hide download widgets/ show game IV
-		setGameUI();
-
 		// start doom!
 		startGame();
 	}
@@ -257,13 +256,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			return true;
 		}
 		return true;
-	}
-
-	/**
-	 * Hide main layout/show image vire (game)
-	 */
-	private void setGameUI() {
-		((ImageView) findViewById(R.id.doom_iv)).setBackgroundDrawable(null);
 	}
 
 	void MessageBox(String text) {
@@ -343,10 +335,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			h = 200;
 			mView.setLayoutParams(lp);
 		}
-
-		// mMatrix.preScale(w / 320, h / 200, 240, 160);
-		// mMatrix.postTranslate(240 - w/2, 160 - h/2);
-		// mView.setImageMatrix(mMatrix);
 
 		boolean stockWad = false;
 		for (int i = 0; i < DoomTools.DOOM_WADS.length; i++) {
@@ -674,7 +662,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 	public void surfaceCreated(SurfaceHolder holder) {
 		Log.d(getClass().getSimpleName(), "surfaceCreated");
-		mSurfaceReady = true;
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
@@ -685,7 +672,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.d(getClass().getSimpleName(), "surfaceDestroyed");
-		mSurfaceReady = true;
 	}
 
 	private void drawScreen() {
@@ -696,7 +682,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 	private void showMainScreen() {
 		findViewById(R.id.main_ctls).setVisibility(View.VISIBLE);
-		findViewById(R.id.gameControls).setVisibility(View.INVISIBLE);
+		if(mUseTouchControls)
+			findViewById(R.id.gameControls).setVisibility(View.INVISIBLE);
 		if (mGameStarted) {
 			findViewById(R.id.install).setEnabled(false);
 			findViewById(R.id.installSound).setEnabled(false);
@@ -709,9 +696,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	}
 
 	private void showGameScreen() {
-		findViewById(R.id.main_ctls).setVisibility(View.GONE);
-		findViewById(R.id.doom_iv).setVisibility(View.VISIBLE);
-		findViewById(R.id.gameControls).setVisibility(View.VISIBLE);
+		findViewById(R.id.main_ctls).setVisibility(View.INVISIBLE);
+		if(mUseTouchControls)
+			findViewById(R.id.gameControls).setVisibility(View.VISIBLE);
 	}
 
 	private void loadSpinnerWads(Context ctx, Spinner spinner, int idx) {
@@ -743,8 +730,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			((Spinner) this.findViewById(R.id.s_files)).setSelection(wadIdx);
 		((CheckBox) this.findViewById(R.id.fullscreen)).setChecked(mFullscreen);
 		((CheckBox) this.findViewById(R.id.sound)).setChecked(mSound);
-		((CheckBox) this.findViewById(R.id.touch))
-				.setChecked(mUseTouchControls);
+		((CheckBox) this.findViewById(R.id.touch)).setChecked(mUseTouchControls);
 		((EditText) this.findViewById(R.id.arguments)).setText(extraArgs);
 
 		findViewById(R.id.s_files).setOnTouchListener(
@@ -805,7 +791,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
 						if (mGameStarted) {
-							enableDPad(isChecked);
+							mUseTouchControls = isChecked;
 						}
 					}
 
@@ -874,6 +860,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		});
 	}
 
+	/**
+	 * Custom touch listener for the multi-touch implementation
+	 */
 	private OnTouchListener touchControlsListener = new OnTouchListener() {
 
 		@Override
@@ -916,10 +905,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	 * Processes a touch based at (x,y). This should handle touching parts of
 	 * the on-screen controls
 	 * 
-	 * @param x
-	 *            - x coordinate of the touch
-	 * @param y
-	 *            - y coordinate of the touch
+	 * @param x - x coordinate of the touch
+	 * @param y - y coordinate of the touch
 	 * @return - true if the touch was on an onScreenControl
 	 */
 	private boolean processTouch(float x, float y, MotionEvent event, int pointerIndex) {
@@ -1197,6 +1184,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		return false;
 	}
 	
+	/**
+	 * Gets the state of the various game settings in main_screen layout.
+	 */
 	private void getGameSettings() {
 		wadIdx = ((Spinner) this.findViewById(R.id.s_files))
 				.getSelectedItemPosition();
@@ -1211,6 +1201,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				.isChecked();
 	}
 
+	/**
+	 * Save the sharedPreferences
+	 */
 	private void savePreferences() {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -1225,6 +1218,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		editor.commit();
 	}
 
+	/**
+	 * Load the sharedPreferences
+	 */
 	private void loadPreferences() {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		wadIdx = settings.getInt("wadIdx", 0);
@@ -1236,6 +1232,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mUseTouchControls = settings.getBoolean("useTouch", false);
 	}
 
+	/**
+	 * Pauses the doom engine
+	 */
 	private void pauseGame() {
 		if (mGameStarted) {
 			if (!mGamePaused) {
@@ -1250,6 +1249,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		}
 	}
 
+	/**
+	 * Un-pauses the doom engine
+	 */
 	private void resumeGame() {
 		if (mGamePaused) {
 			if (mGameStarted) {
@@ -1264,6 +1266,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		}
 	}
 
+	/**
+	 * Toggles the on-screen controls on and off
+	 * @param enable - if true on-screen controls are visible, else invisible.
+	 */
 	private void enableDPad(boolean enable) {
 		if (enable) {
 			this.findViewById(R.id.gameControls).setVisibility(View.VISIBLE);
@@ -1272,6 +1278,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		}
 	}
 
+	/**
+	 * Displays what D-Pad position(s) are being pressed
+	 * @param status - status of the D-Pad. Found in VirtualDPad class
+	 */
 	private void setIndicator(int status) {
 		ImageView ib = (ImageView) this.findViewById(R.id.indicator);
 
@@ -1317,6 +1327,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			}
 	}
 
+	/**
+	 * Adds all the touchscreen controls to the mOnScreenControls HashMap
+	 */
 	private void loadOnScreenControls() {
 		mOnScreenControls = new HashMap<String, View>();
 		mOnScreenControls.put("DPAD", this.findViewById(R.id.vstick));
@@ -1338,5 +1351,28 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mOnScreenControls.put("FIRE", this.findViewById(R.id.multiTouchView));
 		
 		touchedViews[0] = touchedViews[1] = null;
+	}
+	
+	private void changeFonts(ViewGroup root) {
+		Typeface type = Typeface.createFromAsset(this.getAssets(), "fonts/DooM.ttf");
+		
+		for (int i = 0; i < root.getChildCount(); i++) {
+			View v = root.getChildAt(i);
+			if (v instanceof FrameLayout || v instanceof RelativeLayout) {
+				changeFonts((ViewGroup)v);
+			}
+			if (v instanceof TextView) {
+				((TextView)v).setTypeface(type);
+			}
+			if (v instanceof EditText) {
+				((EditText)v).setTypeface(type);
+			}
+			if (v instanceof CheckBox) {
+				((CheckBox)v).setTypeface(type);
+			}
+			if (v instanceof Button) {
+				((Button)v).setTypeface(type);
+			}
+		}
 	}
 }
