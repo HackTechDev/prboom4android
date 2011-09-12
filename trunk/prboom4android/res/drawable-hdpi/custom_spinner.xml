@@ -6,6 +6,9 @@
  	<item 
  		android:state_focused="true"
        	android:drawable="@drawable/doom_spinner_selected" /> <!-- focused -->
+    <item
+    	android:state_enabled="false"
+    	android:drawable="@drawable/doom_spinner_disabled" /> <!-- disabled -->
  	<item 
  		android:drawable="@drawable/doom_spinner" /> <!-- default -->
 </selector>

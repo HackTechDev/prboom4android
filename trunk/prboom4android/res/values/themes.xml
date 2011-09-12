@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PrBoomTheme" parent="android:style/Theme.NoTitleBar">
+        <item name="android:buttonStyle">@style/PrBoomButton</item>
+        <item name="android:checkboxStyle">@style/PrBoomCheckBox</item>
+    </style>
+    
+</resources>

@@ -1167,7 +1167,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				}
 			} else if (controlId.contains("TURN")) {
 				v.getHitRect(outRect);
-				if (x >= outRect.left && x < outRect.left + v.getWidth()/2) {
+				if (x < outRect.left + v.getWidth()/2) {
 					Natives.keyEvent(Natives.EV_KEYDOWN, DoomTools.KEY_LEFTARROW);
 					Natives.keyEvent(Natives.EV_KEYUP, DoomTools.KEY_RIGHTARROW);
 				} else {

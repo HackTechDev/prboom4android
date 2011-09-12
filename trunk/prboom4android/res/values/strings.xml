@@ -2,4 +2,16 @@
 <resources>
     
     <string name="app_name">PrBoom For Android</string>
+    <string name="choose_wad">Choose WAD to play</string>
+    <string name="extra_args">Extra arguments</string>
+    <string name="engine_options">Game Engine Options</string>
+    <string name="fullscreen">Fullscreen</string>
+    <string name="enable_sound">Enable Sound</string>
+    <string name="touch_controls">On-screen Controls</string>
+    <string name="install_wads">Install WADs</string>
+    <string name="cleanup">Cleanup</string>
+    <string name="how_to">Help</string>
+    <string name="quit">Quit</string>
+    <string name="play">PLAY!</string>
+    <string name="run">Run</string>
 </resources>

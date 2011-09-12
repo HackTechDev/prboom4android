@@ -31,7 +31,7 @@
 				android:id="@+id/t_chooseWad"
 				android:layout_width="240dp"
 				android:layout_height="wrap_content"
-				android:text="Choose WAD to play"
+				android:text="@string/choose_wad"
 				android:textStyle="bold"
 				android:textSize="16dp">
 			</TextView>
@@ -41,7 +41,7 @@
 				android:layout_height="wrap_content"
 				android:layout_alignParentTop="true"
 				android:layout_alignParentRight="true"
-				android:text="Extra arguments"
+				android:text="@string/extra_args"
 				android:textStyle="bold"
 				android:textSize="16dp" 
 				android:visibility="visible">
@@ -75,7 +75,7 @@
 				android:layout_alignParentLeft="true"
 				android:layout_below="@+id/s_files"
 				android:layout_marginTop="15dp"
-				android:text="Game Engine Options"
+				android:text="@string/engine_options"
 				android:textStyle="bold"
 				android:textSize="18dp">
 			</TextView>
@@ -83,35 +83,27 @@
 				android:id="@+id/fullscreen"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Fullscreen"
+				android:text="@string/fullscreen"
 				android:layout_below="@+id/t_options"
-				android:textStyle="bold"
-				android:textSize="14dp"
-				android:button="@drawable/doom_checkbox">
+				style="@style/PrBoomCheckBox">
 			</CheckBox>
 			<CheckBox
 				android:id="@+id/sound"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Enable Sound"
+				android:text="@string/enable_sound"
 				android:layout_alignTop="@+id/fullscreen"
 				android:layout_toRightOf="@+id/fullscreen"
-				android:textStyle="bold"
-				android:textSize="14dp"
-				android:layout_marginLeft="8dp"
-				android:button="@drawable/doom_checkbox">
+				style="@style/PrBoomCheckBox">
 			</CheckBox>
 			<CheckBox
 				android:id="@+id/touch"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="On-Screen Controls"
+				android:text="@string/touch_controls"
 				android:layout_alignTop="@+id/fullscreen"
 				android:layout_toRightOf="@+id/sound"
-				android:textStyle="bold"
-				android:textSize="14dp"
-				android:layout_marginLeft="8dp"
-				android:button="@drawable/doom_checkbox">
+				style="@style/PrBoomCheckBox">
 			</CheckBox>
 			<Button
 				android:id="@+id/install"
@@ -122,70 +114,53 @@
 				android:layout_toLeftOf="@+id/installSound"
 				android:layout_marginTop="5dp"
 				android:layout_marginRight="5dp"
-				android:textSize="13dp"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:background="@drawable/custom_button">
+				style="@style/PrBoomButton">
 			</Button>
 			<Button
 				android:id="@+id/installSound"
-				android:layout_width="150dp"
+				android:layout_width="160dp"
 				android:layout_height="wrap_content"
-				android:text="Install Sounds"
+				android:text="@string/install_wads"
 				android:layout_alignTop="@+id/install"
 				android:layout_centerHorizontal="true"
-				android:textSize="13dp"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:background="@drawable/custom_button">
+				style="@style/PrBoomButton">
 			</Button>
 			<Button
 				android:id="@+id/clean"
 				android:layout_width="150dp"
 				android:layout_height="wrap_content"
-				android:text="Cleanup"
+				android:text="@string/cleanup"
 				android:layout_alignTop="@+id/install"
 				android:layout_toRightOf="@+id/installSound"
 				android:layout_marginLeft="5dp"
-				android:textSize="13dp"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:background="@drawable/custom_button">
+				style="@style/PrBoomButton">
 			</Button>
 			<Button
 				android:id="@+id/help"
 				android:layout_width="100dp"
 				android:layout_height="wrap_content"
-				android:text="How To"
+				android:text="@string/how_to"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentBottom="true"
-				android:textSize="13dp"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:background="@drawable/custom_button">
+				style="@style/PrBoomButton">
 			</Button>
 			<Button
 				android:id="@+id/quit"
 				android:layout_width="100dp"
 				android:layout_height="wrap_content"
-				android:text="Quit"
+				android:text="@string/quit"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentBottom="true"
-				android:textSize="13dp"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:background="@drawable/custom_button">
+				style="@style/PrBoomButton">
 			</Button>
 			<Button
 				android:id="@+id/play"
 				android:layout_width="200dp"
 				android:layout_height="wrap_content"
-				android:text="PLAY!"
+				android:text="@string/play"
 				android:layout_alignParentBottom="true"
 				android:layout_centerHorizontal="true"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:background="@drawable/custom_button">
+				style="@style/PrBoomButton">
 			</Button>
 		</RelativeLayout>
 		<RelativeLayout
@@ -229,7 +204,7 @@
 	        	android:layout_height="wrap_content"
 	        	android:layout_alignParentBottom="true"
 	        	android:layout_toLeftOf="@+id/vstick_lr"
-	        	android:button="@drawable/doom_checkbox" 
+				style="@style/PrBoomCheckBox"
 	        />
 	        <TextView 
 	        	android:id="@+id/runText"
@@ -238,7 +213,7 @@
 	        	android:layout_alignBottom="@+id/enableRun"
 	        	android:layout_toLeftOf="@+id/enableRun"
 	        	android:layout_marginBottom="10dp"
-	        	android:text="Run"
+	        	android:text="@string/run"
 	        	android:textSize="20dp"
 	        	android:textStyle="bold"
 	        	android:textColor="#FFFFFF"
