@@ -58,6 +58,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -1027,9 +1028,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			} else if (controlId.contains("MAP")) {
 				Natives.keyEvent(Natives.EV_KEYDOWN, DoomTools.KEY_Z);
 			} else if (controlId.contains("RUN")) {
-				CheckBox cb = (CheckBox)v;
-				cb.setChecked(!cb.isChecked());
-				if(cb.isChecked())
+				CheckedTextView ctv = (CheckedTextView)v;
+				ctv.setChecked(!ctv.isChecked());
+				if(ctv.isChecked())
 					Natives.keyEvent(Natives.EV_KEYDOWN, DoomTools.KEY_RSHIFT);
 				else
 					Natives.keyEvent(Natives.EV_KEYUP, DoomTools.KEY_RSHIFT);
@@ -1372,6 +1373,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			}
 			if (v instanceof Button) {
 				((Button)v).setTypeface(type);
+			}
+			if (v instanceof CheckedTextView) {
+				((CheckedTextView)v).setTypeface(type);
 			}
 		}
 	}
