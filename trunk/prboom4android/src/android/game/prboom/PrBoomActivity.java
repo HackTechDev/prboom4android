@@ -29,7 +29,6 @@ import doom.audio.AudioClip;
 import doom.audio.AudioManager;
 import doom.util.DialogTool;
 import doom.util.DoomTools;
-import doom.util.LibraryLoader;
 import doom.util.Natives;
 import doom.util.GameFileDownloader;
 import android.app.Activity;
@@ -232,16 +231,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			return false;
 		}
 
-		// check 4 JNI lib
-
-		File lib = getFileStreamPath(DoomTools.DOOM_LIB);
-		if (!lib.exists() || lib.length() == 0) {
-			if (false == DoomTools.installLib(this)) {
-				MessageBox("libdoom_jni.so is invalid or missing.");
-				return false;
-			}
-		}
-
 		// check 4 prboom.wad
 		File prboom = new File(DoomTools.DOOM_FOLDER
 				+ DoomTools.REQUIRED_DOOM_WAD);
@@ -315,6 +304,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			mAudioMgr = AudioManager.getInstance(this, wadIdx);
 
 		enableDPad(mUseTouchControls);
+		adjustFireButtonSize();
 
 		// Doom args
 		final String[] argv;
@@ -424,20 +414,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		if (initialized)
 			return true;
 
-		File lib = getFileStreamPath(DoomTools.DOOM_LIB);
-		if (!lib.exists()) {
-			MessageBox("Unable to find DOOM library " + DoomTools.DOOM_LIB);
-			return false;
-		}
-
-		if (lib.length() == 0) {
-			MessageBox("Invalid DOOM library " + DoomTools.DOOM_LIB
-					+ " (size=0)");
-			return false;
-		}
-
-		Log.d(TAG, "Loading JNI librray from " + lib);
-		LibraryLoader.load(lib.getAbsolutePath());
+		Log.d(TAG, "Loading JNI library... ");
+		// now that the library is in libs/armeabi we can use the following
+		System.loadLibrary(DoomTools.DOOM_LIB);
 
 		// Listen for Doom events
 		Natives.setListener(this);
@@ -779,9 +758,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				if (mGameStarted && mGamePaused) {
 					showGameScreen();
 					resumeGame();
+				} else {
+					getGameSettings();
+					play();
 				}
-				getGameSettings();
-				play();
 			}
 		});
 
@@ -939,7 +919,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				controlId = entry.getKey();
 				v = entry.getValue();
 				v.getHitRect(outRect);
-				if ( !controlId.contains("FIRE") && (x >= outRect.left && x <= outRect.right) && 
+				if ( (x >= outRect.left && x <= outRect.right) && 
 					 (y >= outRect.top && y <= outRect.bottom) ) {
 					touchedViews[pointerIndex] = entry;
 					foundView = true;
@@ -949,13 +929,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				} else if (controlId.contains("FIRE"))
 					other = entry;
 			}
-			if (!foundView) {
-				touchedViews[pointerIndex] = other;
-				sb.append("FIRE touched! [");
-				sb.append(pointerIndex); sb.append("]");
-			}
-			
 			Log.d(TAG, sb.toString());
+			if (!foundView)
+				return false;
 			
 			v = touchedViews[pointerIndex].getValue();
 			controlId = touchedViews[pointerIndex].getKey();
@@ -1106,7 +1082,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			if(pointerIndex == 0) {
 				touchedViews[0] = touchedViews[1];
 				touchedViews[1] = null;
-			}
+			} else
+				touchedViews[1] = null;
+				
 			return true;
 		case MotionEvent.ACTION_MOVE:
 			if(touchedViews[pointerIndex] == null)
@@ -1349,7 +1327,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mOnScreenControls.put("NO", this.findViewById(R.id.no));
 		mOnScreenControls.put("MAP", this.findViewById(R.id.map));
 		mOnScreenControls.put("RUN", this.findViewById(R.id.enableRun));
-		mOnScreenControls.put("FIRE", this.findViewById(R.id.multiTouchView));
+		mOnScreenControls.put("FIRE", this.findViewById(R.id.fireButton));
 		
 		touchedViews[0] = touchedViews[1] = null;
 	}
@@ -1378,5 +1356,16 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				((CheckedTextView)v).setTypeface(type);
 			}
 		}
+	}
+	
+	/**
+	 * adjusts the width and height of the fireButton ImageButton to take up
+	 * half of the screen.
+	 */
+	private void adjustFireButtonSize() {
+		ViewGroup.LayoutParams lp = findViewById(R.id.fireButton).getLayoutParams();
+		lp.width = mSurfaceWidth / 2;
+		lp.height = mSurfaceHeight / 2;
+		findViewById(R.id.fireButton).setLayoutParams(lp);
 	}
 }

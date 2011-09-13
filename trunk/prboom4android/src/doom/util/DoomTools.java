@@ -43,7 +43,8 @@ public class DoomTools {
 	/**
 	 * Doom lib. To be downloaded into /data/data/APP_PKG/files
 	 */
-	public static final String DOOM_LIB = "libdoom_jni.so";
+	//public static final String DOOM_LIB = "libdoom_jni.so";
+	public static final String DOOM_LIB = "prboom_jni";
 
 	// These are required for the game to run
 	public static final String REQUIRED_DOOM_WAD = "prboom.wad";  

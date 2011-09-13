@@ -7,6 +7,13 @@
  ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______  
 |______|______|______|______|______|______|______|______|______|______|______|______|
 
+ 1.2.4-beta
+------------
+ + libdoom_jni.so is now freshly compiled with NDK and called libprboom_jni.so
+ + Changed Run CheckBox to CheckedTextView so touching the text works
+ + Fire/Enter is now accomplished by touching somewhere in the middle of the screen
+   It actually takes up 50% of the screen in the middle. This will help avoid mis-fires
+ 
  1.2.3-beta
 ------------
  + Created custom images for buttons, checkboxes, textviews, etc.
