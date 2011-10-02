@@ -127,6 +127,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	private float mVstickX = 0;
 	private float mVstickY = 0;
 	private View mMultiTouchController;
+	boolean mTrackBallPressed = false;
 
 	private HashMap<String, View> mOnScreenControls;
 	
@@ -144,7 +145,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		
 		// this will be used to display HUD text such as "PICKED UP A SHOTGUN"
 		toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-		toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, -120);
+		//toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, -120);
 		
 		changeFonts((ViewGroup)findViewById(R.id.rootView));
 
@@ -448,9 +449,12 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		int sym = DoomTools.keyCodeToKeySym(keyCode);
 
 		try {
-			if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER)
+			if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
 				Natives.keyEvent(Natives.EV_KEYUP, DoomTools.KEY_RCTRL);
-			Natives.keyEvent(Natives.EV_KEYUP, sym);
+				Natives.keyEvent(Natives.EV_KEYUP, DoomTools.KEY_ENTER);
+				mTrackBallPressed = false;
+			} else
+				Natives.keyEvent(Natives.EV_KEYUP, sym);
 			Log.d(TAG, "onKeyUp sent key " + keyCode);
 
 		} catch (UnsatisfiedLinkError e) {
@@ -480,9 +484,12 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		int sym = DoomTools.keyCodeToKeySym(keyCode);
 
 		try {
-			if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER)
+			if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && !mTrackBallPressed) {
 				Natives.keyEvent(Natives.EV_KEYDOWN, DoomTools.KEY_RCTRL);
-			Natives.keyEvent(Natives.EV_KEYDOWN, sym);
+				Natives.keyEvent(Natives.EV_KEYDOWN, DoomTools.KEY_ENTER);
+				mTrackBallPressed = true;
+			} else
+				Natives.keyEvent(Natives.EV_KEYDOWN, sym);
 			Log.d(TAG, "onKeyDown sent  key " + keyCode);
 		} catch (UnsatisfiedLinkError e) {
 			// Should not happen
@@ -802,9 +809,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mMultiTouchController = findViewById(R.id.multiTouchView);
 		mMultiTouchController.setOnTouchListener(touchControlsListener);
 
-		ImageButton vstick = (ImageButton) findViewById(R.id.vstick);
-		mVStick = new VirtualDPad(180, 180, 24);
-
 		findViewById(R.id.install).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -958,6 +962,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			controlId = touchedViews[pointerIndex].getKey();
 			if (controlId.contains("DPAD")) {
 				v.getHitRect(outRect);
+				mVStick.mWidth = outRect.width();
+				mVStick.mHeight = outRect.height();
 				mVstickX = x - outRect.left;
 				mVstickY = y - outRect.top;
 				mVstickPosition = mVStick.getPosition(mVstickX, mVstickY);
@@ -1350,6 +1356,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		mOnScreenControls.put("RUN", this.findViewById(R.id.enableRun));
 		mOnScreenControls.put("FIRE", this.findViewById(R.id.fireButton));
 		
+		Rect vStickBounds = new Rect();
+		this.findViewById(R.id.vstick).getHitRect(vStickBounds);
+		mVStick = new VirtualDPad(vStickBounds.width(), vStickBounds.height(), 24);
+
 		touchedViews[0] = touchedViews[1] = null;
 	}
 	
