@@ -7,6 +7,11 @@
  ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______  
 |______|______|______|______|______|______|______|______|______|______|______|______|
 
+ 1.2.5-beta
+------------
+ + libprboom_jni is now compiled with network support
+ + HUD messages are passed on to Android and displayed as a Toast
+ 
  1.2.4-beta
 ------------
  + libdoom_jni.so is now freshly compiled with NDK and called libprboom_jni.so
