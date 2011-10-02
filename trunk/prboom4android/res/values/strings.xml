@@ -14,4 +14,5 @@
     <string name="quit">Quit</string>
     <string name="play">PLAY!</string>
     <string name="run">Run</string>
+    <string name="install_sounds">Install Sounds</string>
 </resources>

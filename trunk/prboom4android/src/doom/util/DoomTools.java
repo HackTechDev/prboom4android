@@ -38,7 +38,7 @@ public class DoomTools {
 	public static final String SOUND_BASE = DOWNLOAD_BASE + "" ;
 	
 	// Game files we can handle
-	public static final String[] DOOM_WADS = {"freedoom.wad"};
+	public static final String[] DOOM_WADS = {"freedoom.wad", "freedm.wad"};
 
 	/**
 	 * Doom lib. To be downloaded into /data/data/APP_PKG/files
