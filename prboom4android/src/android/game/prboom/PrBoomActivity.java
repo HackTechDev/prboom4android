@@ -43,6 +43,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -81,6 +82,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	public static final String PREFS_NAME = "PrBoom4Android";
 	private static final int MOUSE_HSENSITIVITY = 100;
 	private static final int MOUSE_VSENSITIVITY = 40;
+	private static Toast toast;
 
 	static private Bitmap mDoomBitmap;
 	static private ImageView mView;
@@ -139,6 +141,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.main_screen);
+		
+		// this will be used to display HUD text such as "PICKED UP A SHOTGUN"
+		toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, -120);
 		
 		changeFonts((ViewGroup)findViewById(R.id.rootView));
 
@@ -335,18 +341,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				break;
 			}
 		}
+		
 		String args = new String();
-		if (stockWad)
-			args = "doom -width " + w + " -height " + h + " -iwad " + wadName
-					+ " " + extraArgs;
-		// argv = new String[]{"doom" , "-width", ""+w, "-height", ""+h,
-		// "-iwad", wadName};
-		else
-			args = "doom -width " + w + " -height " + h + " -iwad doom2.wad"
-					+ " -file " + DoomTools.DOOM_FOLDER + wadName + " "
-					+ extraArgs;
-		// argv = new String[]{"doom" , "-width", ""+w, "-height", ""+h,
-		// "-iwad", "doom2.wad", "-file", DoomTools.DOOM_FOLDER+wadName};
+		args = "doom -width " + w + " -height " + h + " -iwad " + wadName
+				+ " " + extraArgs;
 
 		Log.i(TAG, "Starting doom thread with " + args);
 		Log.i(TAG,
@@ -542,6 +540,29 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	public void OnMessage(String text) {
 		System.out.println("**Doom Message: " + text);
 
+	}
+	
+	@Override
+	public void OnInfoMessage(final String msg, int longDisplay) {
+		if(longDisplay > 0) {
+			mHandler.post(new Runnable() {
+				public void run() {
+					toast.cancel();
+					toast.setText(msg);
+					toast.setDuration(Toast.LENGTH_LONG);
+					toast.show();
+				}
+			});
+		} else {
+			mHandler.post(new Runnable() {
+				public void run() {
+					toast.cancel();
+					toast.setText(msg);
+					toast.setDuration(Toast.LENGTH_SHORT);
+					toast.show();
+				}
+			});
+		}
 	}
 
 	@Override
