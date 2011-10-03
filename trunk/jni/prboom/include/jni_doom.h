@@ -22,6 +22,15 @@
  * globals
  *----------------------------------------------------------------------------
  */
+#define TT_SHORT_DELAY 0
+#define TT_LONG_DELAY 1
+#define TT_COLOR_RED 2
+#define TT_COLOR_GREEN 4
+#define TT_COLOR_BLUE 8
+#define TT_COLOR_YELLOW 6
+#define TT_COLOR_MAGENTA 10
+#define TT_COLOR_CYAN 12
+#define TT_COLOR_WHITE 14
 
 #define CB_CLASS "doom/util/Natives"
 
@@ -93,7 +102,7 @@ void jni_fatal_error(const char * text);
 // printf str messages back to java
 void jni_printf(char *format, ...);
 
-void jni_info_msg(const char * msg, int longDisplay);
+void jni_info_msg(const char * msg, int type);
 
 // For sending img updates back to Java
 void jni_init_graphics(int width, int height);

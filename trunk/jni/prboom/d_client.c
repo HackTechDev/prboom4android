@@ -69,6 +69,7 @@
 #include "m_argv.h"
 #include "r_fps.h"
 #include "lprintf.h"
+#include "jni_doom.h"
 
 static boolean   server;
 static int       remotetic; // Tic expected from the remote
@@ -198,7 +199,7 @@ void D_CheckNetGame(void)
   if (server) {
     lprintf(LO_INFO, "D_CheckNetGame: waiting for server to signal game start\n");
 #ifdef USE_ANDROID
-    jni_info_msg("Waiting for server to signal game start!", 1);
+    jni_info_msg("Waiting for server to signal game start!", TT_LONG_DELAY | TT_COLOR_RED);
 #endif
     do {
       while (!I_GetPacket(packet, sizeof(packet_header_t)+1)) {
@@ -319,6 +320,7 @@ void NetUpdate(void)
       if (j != consoleplayer) playeringame[j] = false;
     server = false;
     doom_printf("Server is down\nAll other players are no longer in the game\n");
+    jni_info_msg("Server is down\nAll other players are no longer in the game!", TT_LONG_DELAY | TT_COLOR_RED);
   }
   break;
       case PKT_EXTRA: // Misc stuff
