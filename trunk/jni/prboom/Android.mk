@@ -30,7 +30,7 @@ LOCAL_SRC_FILES := \
 	g_game.c m_argv.c p_genlin.c p_telept.c r_sky.c z_bmalloc.c \
 	m_bbox.c p_inter.c p_tick.c r_things.c z_zone.c \
 	d_client.c i_video.c i_network.c i_system.c \
-	i_main.c i_sound.c jni_doom.c
+	i_main.c i_sound.c jni_doom.c mmus2mid.c pcm2wav.c
 
 LOCAL_SHARED_LIBRARIES	:= 
 LOCAL_STATIC_LIBRARIES	:= SDL_net SDL

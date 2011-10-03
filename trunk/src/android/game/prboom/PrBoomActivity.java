@@ -245,12 +245,25 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			MessageBox("Missing required Game file " + prboom);
 			return false;
 		}
-
-		// Sound?
-		if (!DoomTools.hasSound() && mSound) {
-			MessageBox("Warning: Soundtrack not found!");
-			return true;
+		
+		// check for sound folder and create if it doesn't exist
+		File soundDir = new File(DoomTools.DOOM_SOUND_FOLDER);
+		if ( !soundDir.exists() ) {
+			soundDir.mkdir();
+			File noMedia = new File(DoomTools.DOOM_SOUND_FOLDER + File.separator + ".nomedia");
+			try {
+				noMedia.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+	        String[] children = soundDir.list();
+	        for (int i=0; i<children.length; i++) {
+	        	new File(soundDir, children[i]).delete();
+	        }
 		}
+
 		return true;
 	}
 

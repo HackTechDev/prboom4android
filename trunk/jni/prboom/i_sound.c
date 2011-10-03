@@ -42,6 +42,11 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
+#ifdef USE_ANDROID
+#include "mmus2mid.h"
+#include "pcm2wav.h"
+#endif
 /*
 #include "SDL.h"
 #include "SDL_audio.h"
@@ -323,7 +328,8 @@ int I_StartSound(int id, int channel, int vol, int sep, int pitch, int priority)
   // use locking which makes sure the sound data is in a malloced area and
   // not in a memory mapped one
   data = W_LockLumpNum(lump);
-
+  if( !writeSoundFile(S_sfx[id].name, data, len))
+	  printf("Unable to write sound file %s!\n", S_sfx[id].name);
   // Vladimir
   //printf("I_StartSound id:%d, channel:%d, name %s\n", id, channel, S_sfx[id].name);
   jni_start_sound(S_sfx[id].name , vol);
@@ -594,13 +600,15 @@ void I_InitSound(void)
 //
 
 #ifndef HAVE_OWN_MUSIC
+#ifdef USE_ANDROID
+char* music_tmp = NULL; /* cph - name of music temporary file */
+#endif
 
 #ifdef HAVE_MIXER
 #include "SDL_mixer.h"
 #include "mmus2mid.h"
 
 static Mix_Music *music[2] = { NULL, NULL };
-
 char* music_tmp = NULL; /* cph - name of music temporary file */
 
 #endif
@@ -608,6 +616,14 @@ char* music_tmp = NULL; /* cph - name of music temporary file */
 void I_ShutdownMusic(void)
 {
 #ifdef HAVE_MIXER
+  if (music_tmp) {
+    unlink(music_tmp);
+    lprintf(LO_DEBUG, "I_ShutdownMusic: removing %s\n", music_tmp);
+    free(music_tmp);
+	music_tmp = NULL;
+  }
+#endif
+#ifdef USE_ANDROID
   if (music_tmp) {
     unlink(music_tmp);
     lprintf(LO_DEBUG, "I_ShutdownMusic: removing %s\n", music_tmp);
@@ -634,6 +650,20 @@ void I_InitMusic(void)
 #else /* !_WIN32 */
     music_tmp = strdup("doom.tmp");
 #endif
+    atexit(I_ShutdownMusic);
+  }
+#endif
+#ifdef USE_ANDROID
+  if (!music_tmp) {
+    music_tmp = strdup("/sdcard/doom/sound/prboom-music-XXXXXX.mid");
+    {
+      int fd = mkstemp(music_tmp);
+      if (fd<0) {
+        lprintf(LO_ERROR, "I_InitMusic: failed to create music temp file %s", music_tmp);
+        free(music_tmp); return;
+      } else
+        close(fd);
+    }
     atexit(I_ShutdownMusic);
   }
 #endif
@@ -737,6 +767,37 @@ int I_RegisterSong(const void *data, size_t len)
     lprintf(LO_ERROR,"Couldn't load MIDI from %s: %s\n", music_tmp, Mix_GetError());
   }
 #endif
+#ifdef USE_ANDROID
+  MIDI *mididata;
+  FILE *midfile;
+
+  if ( len < 32 )
+    return 0; // the data should at least as big as the MUS header
+  if ( music_tmp == NULL )
+    return 0;
+  midfile = fopen(music_tmp, "wb");
+  if ( midfile == NULL ) {
+    lprintf(LO_ERROR,"Couldn't write MIDI to %s\n", music_tmp);
+    return 0;
+  }
+  /* Convert MUS chunk to MIDI? */
+  if ( memcmp(data, "MUS", 3) == 0 )
+  {
+    UBYTE *mid;
+    int midlen;
+
+    mididata = malloc(sizeof(MIDI));
+    mmus2mid(data, mididata, 89, 0);
+    MIDIToMidi(mididata,&mid,&midlen);
+    M_WriteFile(music_tmp,mid,midlen);
+    free(mid);
+    free_mididata(mididata);
+    free(mididata);
+  } else {
+    fwrite(data, len, 1, midfile);
+  }
+  fclose(midfile);
+#endif
   return (0);
 }
 
@@ -772,6 +833,44 @@ void I_SetMusicVolume(int volume)
 #ifdef HAVE_MIXER
   Mix_VolumeMusic(volume*8);
 #endif
+}
+
+int writeSoundFile(const char * name, const unsigned char * buffer, size_t len)
+{
+	char fileName[80];
+	const char *header = "RIFF";
+	FILE *file;
+	size_t written;
+	int32_t datasize;
+	int32_t phys_size;
+	int16_t type,headsize;
+	uint16_t speed;
+	char *data;
+
+	strcpy(fileName, "/sdcard/doom/sound/");
+	strcat(fileName, name);
+	strcat(fileName, ".wav");
+
+	file = fopen(fileName, "r");
+	if(!file)
+	{
+		  headsize = sizeof(int16_t)+sizeof(int16_t)+sizeof(int32_t);
+		  type     = peek_i16_le (buffer);
+		  speed    = peek_u16_le (buffer + 2);
+		  datasize = peek_i32_le (buffer + 4);
+		  data	   = buffer+(headsize);
+		//file = fopen(fileName, "wb");
+		//fwrite(header, sizeof(char), 4, file);
+		//written = fwrite(data, sizeof(char), len, file);
+		//fclose(file);
+		//if(written != len)
+			//return 0;
+		 SNDsaveWave(fileName, data, datasize, speed);
+	}
+	else
+		fclose(file);
+
+	return 1;
 }
 
 #endif /* HAVE_OWN_MUSIC */
