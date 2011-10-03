@@ -24,7 +24,7 @@ public class Natives
 		void OnStartMusic (String name, int loop);
 		void OnStopMusic (String name);
 		void OnSetMusicVolume (int volume);
-		void OnInfoMessage(String msg, int longDisplay);
+		void OnInfoMessage(String msg, int displayType);
 	}
 	
 
@@ -70,9 +70,9 @@ public class Natives
 	}
 	
 	@SuppressWarnings("unused")
-	private static void OnInfoMessage(String msg, int longDisplay) {
+	private static void OnInfoMessage(String msg, int displayType) {
 		if ( listener != null )
-			listener.OnInfoMessage(msg, longDisplay);
+			listener.OnInfoMessage(msg, displayType);
 	}
 	
 	@SuppressWarnings("unused")

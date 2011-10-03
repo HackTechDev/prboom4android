@@ -39,6 +39,7 @@
 #include "hu_stuff.h"
 #include "r_main.h"
 #include "r_draw.h"
+#include "jni_doom.h"
 
 // boolean : whether the screen is always erased
 #define noterased viewwindowx
@@ -329,7 +330,7 @@ void HUlib_addMessageToSText(hu_stext_t* s, const char* prefix, const char* msg)
       while (*prefix)
         HUlib_addCharToTextLine(&s->l[s->cl], *(prefix++));
 
-  jni_info_msg(msg, 0);
+  jni_info_msg(msg, TT_SHORT_DELAY | TT_COLOR_BLUE);
 
   while (*msg)
     HUlib_addCharToTextLine(&s->l[s->cl], *(msg++));
@@ -470,7 +471,7 @@ void HUlib_addMessageToMText(hu_mtext_t* m, const char* prefix, const char* msg)
     while (*prefix)
       HUlib_addCharToTextLine(&m->l[m->cl], *(prefix++));
 
-  jni_info_msg(msg, 0);
+  jni_info_msg(msg, TT_SHORT_DELAY | TT_COLOR_GREEN);
 
   while (*msg)
     HUlib_addCharToTextLine(&m->l[m->cl], *(msg++));

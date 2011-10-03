@@ -562,25 +562,17 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	}
 	
 	@Override
-	public void OnInfoMessage(final String msg, final int longDisplay) {
-		if(longDisplay > 0) {
+	public void OnInfoMessage(final String msg, final int type) {
+		if((type & Toast.LENGTH_LONG) > 0) {
 			mHandler.post(new Runnable() {
 				public void run() {
-					//toast.cancel();
-					//toast.setText(msg);
-					//toast.setDuration(Toast.LENGTH_LONG);
-					//toast.show();
-					toast.show(msg, longDisplay | HUDToast.TT_COLOR_BLUE);
+					toast.show(msg, type);
 				}
 			});
 		} else {
 			mHandler.post(new Runnable() {
 				public void run() {
-					//toast.cancel();
-					//toast.setText(msg);
-					//toast.setDuration(Toast.LENGTH_SHORT);
-					//toast.show();
-					toast.show(msg, longDisplay | HUDToast.TT_COLOR_GREEN);
+					toast.show(msg, type);
 				}
 			});
 		}
@@ -708,11 +700,9 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 			findViewById(R.id.gameControls).setVisibility(View.INVISIBLE);
 		if (mGameStarted) {
 			findViewById(R.id.install).setEnabled(false);
-			findViewById(R.id.installSound).setEnabled(false);
 			findViewById(R.id.sound).setEnabled(false);
 			findViewById(R.id.fullscreen).setEnabled(false);
 			findViewById(R.id.arguments).setEnabled(false);
-			findViewById(R.id.clean).setEnabled(false);
 			findViewById(R.id.s_files).setEnabled(false);
 		}
 	}
@@ -835,31 +825,6 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 						DialogTool.showDownloadDialog(v.getContext());
 					}
 				});
-
-		findViewById(R.id.installSound).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (mGameStarted) {
-							MessageBox("Can't install while game in progress.");
-						}
-
-						// Download soundtrack.zip file
-						new GameFileDownloader().downloadSound(v.getContext());
-					}
-				});
-
-		findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Cleanup
-				if (mGameStarted) {
-					MessageBox("Can't cleanup while game in progress.");
-				}
-
-				DoomTools.cleanUp(PrBoomActivity.this, wadIdx);
-			}
-		});
 
 		findViewById(R.id.help).setOnClickListener(new View.OnClickListener() {
 			@Override

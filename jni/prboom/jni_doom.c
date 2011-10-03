@@ -410,7 +410,7 @@ void jni_start_sound (const char * name, int vol)
  * @param name Sound name
  * @param volume
  */
-void jni_info_msg (const char * msg, int longDelay)
+void jni_info_msg (const char * msg, int type)
 {
 	/*
 	 * Attach to the curr thread otherwise we get JNI WARNING:
@@ -434,7 +434,7 @@ void jni_info_msg (const char * msg, int longDelay)
 	(*env)->CallStaticVoidMethod(env, jNativesCls
 			, jSendInfoMessage
 			, (*env)->NewStringUTF(env, msg)
-			, (jint) longDelay);
+			, (jint) type);
 }
 /**
  * Fires when a background song is requested
