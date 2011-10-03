@@ -82,7 +82,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	public static final String PREFS_NAME = "PrBoom4Android";
 	private static final int MOUSE_HSENSITIVITY = 100;
 	private static final int MOUSE_VSENSITIVITY = 40;
-	private static Toast toast;
+	private static HUDToast toast;
 
 	static private Bitmap mDoomBitmap;
 	static private ImageView mView;
@@ -144,8 +144,7 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		setContentView(R.layout.main_screen);
 		
 		// this will be used to display HUD text such as "PICKED UP A SHOTGUN"
-		toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-		//toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, -120);
+		toast = new HUDToast(this);
 		
 		changeFonts((ViewGroup)findViewById(R.id.rootView));
 
@@ -550,23 +549,25 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	}
 	
 	@Override
-	public void OnInfoMessage(final String msg, int longDisplay) {
+	public void OnInfoMessage(final String msg, final int longDisplay) {
 		if(longDisplay > 0) {
 			mHandler.post(new Runnable() {
 				public void run() {
-					toast.cancel();
-					toast.setText(msg);
-					toast.setDuration(Toast.LENGTH_LONG);
-					toast.show();
+					//toast.cancel();
+					//toast.setText(msg);
+					//toast.setDuration(Toast.LENGTH_LONG);
+					//toast.show();
+					toast.show(msg, longDisplay | HUDToast.TT_COLOR_BLUE);
 				}
 			});
 		} else {
 			mHandler.post(new Runnable() {
 				public void run() {
-					toast.cancel();
-					toast.setText(msg);
-					toast.setDuration(Toast.LENGTH_SHORT);
-					toast.show();
+					//toast.cancel();
+					//toast.setText(msg);
+					//toast.setDuration(Toast.LENGTH_SHORT);
+					//toast.show();
+					toast.show(msg, longDisplay | HUDToast.TT_COLOR_GREEN);
 				}
 			});
 		}
