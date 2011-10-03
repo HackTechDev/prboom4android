@@ -56,7 +56,8 @@ public class AudioManager
 		if(mPaused)
 			return;
 		// The sound key as stored in the FS -> DS[NAME-UCASE].wav
-		String key = "DS" + name.toUpperCase() + ".wav";
+		//String key = "DS" + name.toUpperCase() + ".wav";
+		String key = name + ".wav";
 		
 		if ( mSounds.containsKey(key)) {
 			//Log.d(TAG, "Playing " + key + " from cache  vol:" + vol);
@@ -68,7 +69,8 @@ public class AudioManager
 			File sound = new File(folder.getAbsolutePath() + File.separator + key);
 			
 			if ( ! sound.exists()) {
-				key = "DS" + name.toUpperCase() + ".wav";
+				//key = "DS" + name.toUpperCase() + ".wav";
+				key = name + ".wav";
 				sound = new File(folder.getAbsolutePath() + File.separator + key);
 				if(!sound.exists()) {
 					Log.e(TAG, sound + " not found.");
@@ -152,7 +154,8 @@ public class AudioManager
 			return;
 		// Sound folder
 		File folder = DoomTools.getSoundFolder(); //DoomTools.DOOM_WADS[mWadIdx]);
-		File sound = new File(folder +  File.separator + key + ".mid");
+		//File sound = new File(folder +  File.separator + key + ".mid");
+		File sound = new File(folder + File.separator + "prboom-music-XXXXXX.mid");
 		
 		if ( !sound.exists()) {
 			Log.e(TAG, "Unable to find music " + sound);
