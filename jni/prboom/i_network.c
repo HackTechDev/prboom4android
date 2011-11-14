@@ -87,9 +87,16 @@ void I_ShutdownNetwork(void)
  */
 void I_InitNetwork(void)
 {
-  SDLNet_Init();
+  if ( SDLNet_Init() < 0 )
+  {
+	  I_Error("Unable to initialize network: %s", SDL_GetError());
+  }
   atexit(I_ShutdownNetwork);
   udp_packet = SDLNet_AllocPacket(10000);
+  if ( udp_packet == NULL )
+  {
+	  I_Error("Unable to allocate network packet: %s", SDL_GetError());
+  }
 }
 
 UDP_PACKET *I_AllocPacket(int size)

@@ -416,6 +416,7 @@ void jni_info_msg (const char * msg, int type)
 	 * Attach to the curr thread otherwise we get JNI WARNING:
 	 * threadid=3 using env from threadid=15 which aborts the VM
 	 */
+/*
 	JNIEnv *env;
 
 	if ( !g_VM) {
@@ -435,6 +436,7 @@ void jni_info_msg (const char * msg, int type)
 			, jSendInfoMessage
 			, (*env)->NewStringUTF(env, msg)
 			, (jint) type);
+*/
 }
 /**
  * Fires when a background song is requested

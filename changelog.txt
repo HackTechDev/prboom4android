@@ -7,6 +7,16 @@
  ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______  
 |______|______|______|______|______|______|______|______|______|______|______|______|
 
+ 1.3.0-beta
+------------
+ + Added a dedicated fire button
+ + Removed HUD messages being displayed as a Toast.  This was causing the framerate to drop
+ 
+ 1.3.0-beta
+------------
+ + Music and sounds are now taken directly from the .WAD files.
+   No need to download extra sound files anymore!
+ 
  1.2.5-beta
 ------------
  + libprboom_jni is now compiled with network support
