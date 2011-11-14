@@ -175,6 +175,8 @@ public class AudioManager
 //			music.loop();
 //		else
 		music.setVolume(100);
+		if (loop != 0)
+			music.loop();
 		music.play();
 	}
 
