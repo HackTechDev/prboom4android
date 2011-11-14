@@ -97,8 +97,9 @@ public class AudioClip
 	
 	public synchronized void loop () {
 		mLoop = true;
-		mPlaying = true;
-		mPlayer.start();		
+		//mPlaying = true;
+		//mPlayer.start();
+		mPlayer.setLooping(true);
 	}
 	
 	public void release () {
