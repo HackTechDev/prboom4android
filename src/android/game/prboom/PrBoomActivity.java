@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.android.scheffsblend.orientation.OrientationListener;
+import com.android.scheffsblend.orientation.OrientationManager;
+
 import doom.audio.AudioClip;
 import doom.audio.AudioManager;
 import doom.util.DialogTool;
@@ -77,7 +80,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * 
  */
 public class PrBoomActivity extends Activity implements Natives.EventListener,
-		SurfaceHolder.Callback {
+		SurfaceHolder.Callback, OrientationListener {
 	private static final String TAG = "PrBoomActivity";
 	public static final String PREFS_NAME = "PrBoom4Android";
 	private static final int MOUSE_HSENSITIVITY = 100;
@@ -91,6 +94,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	// height of mBitmap
 	private int mDoomHeight;
 	private boolean mFirstRun = true;
+	private Context mContext;
+	private OrientationListener mOrientationListener;
 
 	private SurfaceView mSurfaceView;
 	private SurfaceHolder mSurfaceHolder;
@@ -103,6 +108,8 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 	private int wadIdx = 0;
 	private String wadName = "";
 	private String extraArgs = "";
+	
+	private float mAccelDeadZone = 0.75f;
 
 	// Audio Cache Manager
 	private AudioManager mAudioMgr;
@@ -142,7 +149,10 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.main_screen);
-		
+
+		mContext = this;
+		mOrientationListener = this;
+
 		// this will be used to display HUD text such as "PICKED UP A SHOTGUN"
 		toast = new HUDToast(this);
 		
@@ -810,6 +820,25 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 
 				});
 
+		((CheckBox) findViewById(R.id.tilt))
+		.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if ( isChecked && OrientationManager.isListening() == false ) {
+					if ( OrientationManager.isSupported(mContext) == false ) {
+						Toast.makeText(mContext, "No sensor found!", Toast.LENGTH_SHORT).show();
+						buttonView.setChecked(false);
+					} else {
+						OrientationManager.startListening(mContext, mOrientationListener);
+					}
+				} else if ( !isChecked && OrientationManager.isListening() ) {
+					OrientationManager.stopListening();
+				}
+			}
+
+		});
+
 		mMultiTouchController = findViewById(R.id.multiTouchView);
 		mMultiTouchController.setOnTouchListener(touchControlsListener);
 
@@ -1377,5 +1406,15 @@ public class PrBoomActivity extends Activity implements Natives.EventListener,
 		lp.width = mSurfaceWidth / 2;
 		lp.height = mSurfaceHeight / 2;
 		findViewById(R.id.fireButton).setLayoutParams(lp);
+	}
+
+	@Override
+	public void onOrientationChanged(float roll, float pitch, float yaw,
+			float[] gravity) {
+		if ( mGameStarted ) {
+			if (Math.abs(gravity[1]) >= mAccelDeadZone)
+				Natives.motionEvent(0, (int) (gravity[1] * 25),
+					-(int) (0 * MOUSE_VSENSITIVITY));
+		}
 	}
 }

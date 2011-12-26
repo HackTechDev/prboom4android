@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="prboom_fullscreen"
+        android:title="Fullscreen Graphics" />
+
+    <CheckBoxPreference
+        android:key="prboom_sound"
+        android:title="Enable Sound" />
+
+    <CheckBoxPreference
+        android:key="prboom_touchcontrols"
+        android:title="Use Touch Controls" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="prboom_tiltturn"
+        android:title="Tilt device to turn" />
+
+</PreferenceScreen>

@@ -116,6 +116,15 @@
 				android:layout_marginRight="5dp"
 				style="@style/PrBoomButton">
 			</Button>
+			<CheckBox
+				android:id="@+id/tilt"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/tilt_controls"
+				android:layout_below="@+id/install"
+				android:layout_centerHorizontal="true"
+				style="@style/PrBoomCheckBox">
+			</CheckBox>
 			<Button
 				android:id="@+id/help"
 				android:layout_width="100dp"
