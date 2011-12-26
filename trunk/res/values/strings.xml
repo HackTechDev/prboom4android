@@ -15,4 +15,5 @@
     <string name="play">PLAY!</string>
     <string name="run">Run</string>
     <string name="install_sounds">Install Sounds</string>
+    <string name="tilt_controls">Use &quot;Tilt to Turn&quot;</string>
 </resources>
